@@ -65,24 +65,16 @@ public class Calculator implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         String buttonPressed = event.getActionCommand().toString();
-        if(buttonPressed == "AC"){
-            emptyInput();
-        }
-        else if (buttonPressed == "DEL") {
-            deleteInputChar();
-        }
-        else if (buttonPressed == "±") {
-            changeSign();
-        }
-        else if (buttonPressed == "%") {
-            convertToPercentage();
-        }
-        else if (buttonPressed == "="){
-            calculate();
-            return;
-        }
-        else {
-            addInputChar(buttonPressed);
+        switch (buttonPressed) {
+            case "AC" -> emptyInput();
+            case "DEL" -> deleteInputChar();
+            case "±" -> changeSign();
+            case "%" -> convertToPercentage();
+            case "=" -> {
+                calculate();
+                return;
+            }
+            default -> addInputChar(buttonPressed);
         }
 
         textField.setText(new String(input, 0, numberOfInputChars));
@@ -95,10 +87,8 @@ public class Calculator implements ActionListener {
     }
 
     private void deleteInputChar(){
-        if(numberOfInputChars > 0) {
-            numberOfInputChars--;
-            input[numberOfInputChars] = ' ';
-        }
+        if(numberOfInputChars > 0)
+            input[--numberOfInputChars] = ' ';
     }
 
     private void addInputChar(String buttonPressed){
@@ -169,8 +159,7 @@ public class Calculator implements ActionListener {
     private void removeMinus(int index){
         for(int i = index; i < numberOfInputChars-1; i++)
             input[i] = input[i+1];
-        input[numberOfInputChars-1] = ' ';
-        numberOfInputChars--;
+        input[--numberOfInputChars] = ' ';
     }
     private void calculate(){
         if(!inputIsValid()) {
@@ -331,7 +320,6 @@ public class Calculator implements ActionListener {
                 || character == 'x'
                 || character == '/';
     }
-
 
     private boolean isDecimalPoint(char character) {
         return character == '.';
